@@ -23,13 +23,26 @@ ros2 run micro_ros_setup flash_firmware.sh
 3. 退出之后要启动ROS2自己的虚拟环境
 ```bash
 source /opt/ros/humble/setup.bash
-cd ~/uros
+cd ~/uros_ws
 source install/setup.bash
 ```
 4. 串口权限设置
 ```bash
 #$USER是自己的用户名
 sudo usermod -a -G dialout $USER
+```
+**已经初始化之后的启动流程**
+```bash
+conda activate espidf_ros2_env
+cd uros_ws
+ros2 run micro_ros_setup build_firmware.sh
+conda deactivate
+conda deactivate
+source /opt/ros/humble/setup.bash
+cd ~/uros_ws
+source install/setup.bash
+ros2 run micro_ros_setup flash_firmware.sh
+
 ```
 # 3. agent安装并启动
 **在系统环境下安装**
