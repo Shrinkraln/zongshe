@@ -51,7 +51,7 @@ ros2 run micro_ros_setup flash_firmware.sh
 #安装colcon构建工具
 sudo apt install python3-colcon-common-extensions
 #安装依赖
-sudo apt install git wget cmake build-essential oython3-pip python3-rosdep
+sudo apt install git wget cmake build-essential python3-pip python3-rosdep
 sudo rosdep init
 rosdep update
 pip install catkin_pkg empy lark
