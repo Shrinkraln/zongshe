@@ -1,0 +1,938 @@
+<sdf version='1.7'>
+  <world name='default'>
+    <light name='sun' type='directional'>
+      <cast_shadows>1</cast_shadows>
+      <pose>0 0 10 0 -0 0</pose>
+      <diffuse>0.8 0.8 0.8 1</diffuse>
+      <specular>0.2 0.2 0.2 1</specular>
+      <attenuation>
+        <range>1000</range>
+        <constant>0.9</constant>
+        <linear>0.01</linear>
+        <quadratic>0.001</quadratic>
+      </attenuation>
+      <direction>-0.5 0.1 -0.9</direction>
+      <spot>
+        <inner_angle>0</inner_angle>
+        <outer_angle>0</outer_angle>
+        <falloff>0</falloff>
+      </spot>
+    </light>
+<model name="robot">
+
+  <link name="base_link">
+  </link>
+
+  <link name="lidar_link">
+
+    <pose>0 0 0.3 0 0 0</pose>
+
+    <sensor name="lidar" type="gpu_lidar">
+
+      <update_rate>10</update_rate>
+      <always_on>true</always_on>
+      <visualize>true</visualize>
+
+      <ray>
+        <scan>
+          <horizontal>
+            <samples>720</samples>
+            <min_angle>-3.14</min_angle>
+            <max_angle>3.14</max_angle>
+          </horizontal>
+        </scan>
+
+        <range>
+          <min>0.1</min>
+          <max>10</max>
+        </range>
+      </ray>
+
+    </sensor>
+
+  </link>
+
+  <joint name="lidar_joint" type="fixed">
+    <parent>base_link</parent>
+    <child>lidar_link</child>
+  </joint>
+
+</model>
+    <model name='ground_plane'>
+      <static>1</static>
+      <link name='link'>
+        <collision name='collision'>
+          <geometry>
+            <plane>
+              <normal>0 0 1</normal>
+              <size>100 100</size>
+            </plane>
+          </geometry>
+          <surface>
+            <contact>
+              <collide_bitmask>65535</collide_bitmask>
+              <ode/>
+            </contact>
+            <friction>
+              <ode>
+                <mu>100</mu>
+                <mu2>50</mu2>
+              </ode>
+              <torsional>
+                <ode/>
+              </torsional>
+            </friction>
+            <bounce/>
+          </surface>
+          <max_contacts>10</max_contacts>
+        </collision>
+        <visual name='visual'>
+          <cast_shadows>0</cast_shadows>
+          <geometry>
+            <plane>
+              <normal>0 0 1</normal>
+              <size>100 100</size>
+            </plane>
+          </geometry>
+         <material>
+  <ambient>0.6 0.6 0.6 1</ambient>
+  <diffuse>0.7 0.7 0.7 1</diffuse>
+  <specular>0.1 0.1 0.1 1</specular>
+</material>
+        </visual>
+        <self_collide>0</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+    </model>
+    <gravity>0 0 -9.8</gravity>
+    <magnetic_field>6e-06 2.3e-05 -4.2e-05</magnetic_field>
+    <atmosphere type='adiabatic'/>
+    <physics type='ode'>
+      <max_step_size>0.001</max_step_size>
+      <real_time_factor>1</real_time_factor>
+      <real_time_update_rate>1000</real_time_update_rate>
+    </physics>
+    <scene>
+      <ambient>0.4 0.4 0.4 1</ambient>
+      <background>0.7 0.7 0.7 1</background>
+      <shadows>1</shadows>
+    </scene>
+    <audio>
+      <device>default</device>
+    </audio>
+    <wind/>
+    <spherical_coordinates>
+      <surface_model>EARTH_WGS84</surface_model>
+      <latitude_deg>0</latitude_deg>
+      <longitude_deg>0</longitude_deg>
+      <elevation>0</elevation>
+      <heading_deg>0</heading_deg>
+    </spherical_coordinates>
+    <model name='continuous_track'>
+      <static>1</static>
+      <pose>-1.87656 -0.659032 0 0 -0 0</pose>
+      <link name='track_walls'>
+        <collision name='wall_collision_0'>
+          <geometry>
+            <polyline>
+              <point>-14.1171 7.4445</point>
+              <point>14.2083 7.4755</point>
+              <point>14.2383 7.4455</point>
+              <point>-14.1171 7.4445</point>
+              <height>0.6</height>
+            </polyline>
+          </geometry>
+          <max_contacts>10</max_contacts>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <bounce/>
+            <friction>
+              <torsional>
+                <ode/>
+              </torsional>
+              <ode/>
+            </friction>
+          </surface>
+        </collision>
+        <visual name='wall_visual_0'>
+          <geometry>
+            <polyline>
+              <point>-14.1171 7.4445</point>
+              <point>14.2083 7.4755</point>
+              <point>14.2383 7.4455</point>
+              <point>-14.1171 7.4445</point>
+              <height>0.6</height>
+            </polyline>
+          </geometry>
+          <material>
+            <ambient>0.2 0.2 0.2 1</ambient>
+            <diffuse>0.8 0.1 0.1 1</diffuse>
+          </material>
+        </visual>
+        <collision name='wall_collision_1'>
+          <geometry>
+            <polyline>
+              <point>14.1784 7.4426</point>
+              <point>17.0383 7.4293</point>
+              <point>18.159 7.2332</point>
+              <point>19.6973 6.51</point>
+              <point>20.6062 5.8357</point>
+              <point>21.435 5.0608</point>
+              <point>22.3272 3.6046</point>
+              <point>22.5552 3.085</point>
+              <point>22.8305 2.0413</point>
+              <point>22.9321 0.854</point>
+              <point>22.7316 -0.8317</point>
+              <point>22.3444 -1.9011</point>
+              <point>21.7931 -2.8897</point>
+              <point>21.0737 -3.7721</point>
+              <point>20.214 -4.5112</point>
+              <point>15.3315 -7.374</point>
+              <point>14.3049 -7.8563</point>
+              <point>13.212 -8.1789</point>
+              <point>12.0895 -8.3189</point>
+              <point>11.5141 -8.2976</point>
+              <point>11.5191 -8.2385</point>
+              <point>12.0856 -8.259</point>
+              <point>13.2012 -8.1199</point>
+              <point>14.2816 -7.801</point>
+              <point>15.3025 -7.3214</point>
+              <point>20.1799 -4.4618</point>
+              <point>21.0315 -3.7295</point>
+              <point>21.7431 -2.8565</point>
+              <point>22.29 -1.8758</point>
+              <point>22.6731 -0.8182</point>
+              <point>22.8721 0.8555</point>
+              <point>22.7717 2.0297</point>
+              <point>22.4982 3.066</point>
+              <point>22.2728 3.5792</point>
+              <point>21.3913 5.0195</point>
+              <point>20.5683 5.7892</point>
+              <point>19.6639 6.4601</point>
+              <point>18.1398 7.1763</point>
+              <point>17.0333 7.3695</point>
+              <point>14.1784 7.4426</point>
+              <height>0.6</height>
+            </polyline>
+          </geometry>
+          <max_contacts>10</max_contacts>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <bounce/>
+            <friction>
+              <torsional>
+                <ode/>
+              </torsional>
+              <ode/>
+            </friction>
+          </surface>
+        </collision>
+        <visual name='wall_visual_1'>
+          <geometry>
+            <polyline>
+              <point>14.1784 7.4426</point>
+              <point>17.0383 7.4293</point>
+              <point>18.159 7.2332</point>
+              <point>19.6973 6.51</point>
+              <point>20.6062 5.8357</point>
+              <point>21.435 5.0608</point>
+              <point>22.3272 3.6046</point>
+              <point>22.5552 3.085</point>
+              <point>22.8305 2.0413</point>
+              <point>22.9321 0.854</point>
+              <point>22.7316 -0.8317</point>
+              <point>22.3444 -1.9011</point>
+              <point>21.7931 -2.8897</point>
+              <point>21.0737 -3.7721</point>
+              <point>20.214 -4.5112</point>
+              <point>15.3315 -7.374</point>
+              <point>14.3049 -7.8563</point>
+              <point>13.212 -8.1789</point>
+              <point>12.0895 -8.3189</point>
+              <point>11.5141 -8.2976</point>
+              <point>11.5191 -8.2385</point>
+              <point>12.0856 -8.259</point>
+              <point>13.2012 -8.1199</point>
+              <point>14.2816 -7.801</point>
+              <point>15.3025 -7.3214</point>
+              <point>20.1799 -4.4618</point>
+              <point>21.0315 -3.7295</point>
+              <point>21.7431 -2.8565</point>
+              <point>22.29 -1.8758</point>
+              <point>22.6731 -0.8182</point>
+              <point>22.8721 0.8555</point>
+              <point>22.7717 2.0297</point>
+              <point>22.4982 3.066</point>
+              <point>22.2728 3.5792</point>
+              <point>21.3913 5.0195</point>
+              <point>20.5683 5.7892</point>
+              <point>19.6639 6.4601</point>
+              <point>18.1398 7.1763</point>
+              <point>17.0333 7.3695</point>
+              <point>14.1784 7.4426</point>
+              <height>0.6</height>
+            </polyline>
+          </geometry>
+          <material>
+            <ambient>0.2 0.2 0.2 1</ambient>
+            <diffuse>0.8 0.1 0.1 1</diffuse>
+          </material>
+        </visual>
+        <collision name='wall_collision_2'>
+          <geometry>
+            <polyline>
+              <point>10.9568 -8.2223</point>
+              <point>9.8532 -7.9597</point>
+              <point>9.3233 -7.751</point>
+              <point>7.8688 -6.8737</point>
+              <point>7.0243 -6.107</point>
+              <point>5.6658 -4.3054</point>
+              <point>5.2451 -3.9393</point>
+              <point>4.2497 -3.4311</point>
+              <point>3.7083 -3.2934</point>
+              <point>3.1472 -3.2602</point>
+              <point>-2.5064 -3.2887</point>
+              <point>-3.6176 -3.4456</point>
+              <point>-4.6725 -3.8432</point>
+              <point>-6.1315 -4.6861</point>
+              <point>-7.3173 -5.8912</point>
+              <point>-8.8361 -8.2701</point>
+              <point>-9.6048 -9.107</point>
+              <point>-10.5025 -9.8057</point>
+              <point>-11.5075 -10.3259</point>
+              <point>-12.0817 -10.4963</point>
+              <point>-10.5325 -9.7536</point>
+              <point>-9.6471 -9.0645</point>
+              <point>-8.8854 -8.2358</point>
+              <point>-7.3646 -5.8542</point>
+              <point>-6.1692 -4.6393</point>
+              <point>-4.6953 -3.7877</point>
+              <point>-3.6335 -3.3876</point>
+              <point>-2.5122 -3.229</point>
+              <point>3.1483 -3.2002</point>
+              <point>3.7176 -3.234</point>
+              <point>4.2688 -3.3741</point>
+              <point>5.2785 -3.8893</point>
+              <point>5.7086 -4.2632</point>
+              <point>7.0697 -6.0678</point>
+              <point>7.9043 -6.8253</point>
+              <point>9.3469 -7.6958</point>
+              <point>10.4151 -8.0448</point>
+              <point>11.551 -8.2695</point>
+              <point>10.9568 -8.2223</point>
+              <height>0.6</height>
+            </polyline>
+          </geometry>
+          <max_contacts>10</max_contacts>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <bounce/>
+            <friction>
+              <torsional>
+                <ode/>
+              </torsional>
+              <ode/>
+            </friction>
+          </surface>
+        </collision>
+        <visual name='wall_visual_2'>
+          <geometry>
+            <polyline>
+              <point>10.9568 -8.2223</point>
+              <point>9.8532 -7.9597</point>
+              <point>9.3233 -7.751</point>
+              <point>7.8688 -6.8737</point>
+              <point>7.0243 -6.107</point>
+              <point>5.6658 -4.3054</point>
+              <point>5.2451 -3.9393</point>
+              <point>4.2497 -3.4311</point>
+              <point>3.7083 -3.2934</point>
+              <point>3.1472 -3.2602</point>
+              <point>-2.5064 -3.2887</point>
+              <point>-3.6176 -3.4456</point>
+              <point>-4.6725 -3.8432</point>
+              <point>-6.1315 -4.6861</point>
+              <point>-7.3173 -5.8912</point>
+              <point>-8.8361 -8.2701</point>
+              <point>-9.6048 -9.107</point>
+              <point>-10.5025 -9.8057</point>
+              <point>-11.5075 -10.3259</point>
+              <point>-12.0817 -10.4963</point>
+              <point>-10.5325 -9.7536</point>
+              <point>-9.6471 -9.0645</point>
+              <point>-8.8854 -8.2358</point>
+              <point>-7.3646 -5.8542</point>
+              <point>-6.1692 -4.6393</point>
+              <point>-4.6953 -3.7877</point>
+              <point>-3.6335 -3.3876</point>
+              <point>-2.5122 -3.229</point>
+              <point>3.1483 -3.2002</point>
+              <point>3.7176 -3.234</point>
+              <point>4.2688 -3.3741</point>
+              <point>5.2785 -3.8893</point>
+              <point>5.7086 -4.2632</point>
+              <point>7.0697 -6.0678</point>
+              <point>7.9043 -6.8253</point>
+              <point>9.3469 -7.6958</point>
+              <point>10.4151 -8.0448</point>
+              <point>11.551 -8.2695</point>
+              <point>10.9568 -8.2223</point>
+              <height>0.6</height>
+            </polyline>
+          </geometry>
+          <material>
+            <ambient>0.2 0.2 0.2 1</ambient>
+            <diffuse>0.8 0.1 0.1 1</diffuse>
+          </material>
+        </visual>
+        <collision name='wall_collision_3'>
+          <geometry>
+            <polyline>
+              <point>-12.5908 -10.6622</point>
+              <point>-14.2842 -10.8457</point>
+              <point>-15.4085 -10.698</point>
+              <point>-16.4977 -10.362</point>
+              <point>-17.5197 -9.8708</point>
+              <point>-18.8098 -8.7617</point>
+              <point>-19.5277 -7.8802</point>
+              <point>-20.0786 -6.8903</point>
+              <point>-20.5975 -5.2705</point>
+              <point>-20.6178 1.524</point>
+              <point>-20.4065 2.6392</point>
+              <point>-20.2271 3.1805</point>
+              <point>-19.4282 4.6834</point>
+              <point>-18.6958 5.5449</point>
+              <point>-18.261 5.9131</point>
+              <point>-16.8333 6.8433</point>
+              <point>-15.2151 7.3681</point>
+              <point>-14.0573 7.45</point>
+              <point>-15.2065 7.3087</point>
+              <point>-16.2883 7.0001</point>
+              <point>-16.8088 6.7885</point>
+              <point>-17.7725 6.2044</point>
+              <point>-18.6528 5.503</point>
+              <point>-19.3801 4.6475</point>
+              <point>-20.172 3.1566</point>
+              <point>-20.5579 1.5196</point>
+              <point>-20.538 -5.2615</point>
+              <point>-20.0233 -6.8671</point>
+              <point>-19.4776 -7.8471</point>
+              <point>-18.7669 -8.7198</point>
+              <point>-17.4881 -9.8196</point>
+              <point>-16.4742 -10.3068</point>
+              <point>-15.3979 -10.6389</point>
+              <point>-14.8403 -10.7184</point>
+              <point>-13.7205 -10.7535</point>
+              <point>-12.0236 -10.4844</point>
+              <point>-12.5908 -10.6622</point>
+              <height>0.6</height>
+            </polyline>
+          </geometry>
+          <max_contacts>10</max_contacts>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <bounce/>
+            <friction>
+              <torsional>
+                <ode/>
+              </torsional>
+              <ode/>
+            </friction>
+          </surface>
+        </collision>
+        <visual name='wall_visual_3'>
+          <geometry>
+            <polyline>
+              <point>-12.5908 -10.6622</point>
+              <point>-14.2842 -10.8457</point>
+              <point>-15.4085 -10.698</point>
+              <point>-16.4977 -10.362</point>
+              <point>-17.5197 -9.8708</point>
+              <point>-18.8098 -8.7617</point>
+              <point>-19.5277 -7.8802</point>
+              <point>-20.0786 -6.8903</point>
+              <point>-20.5975 -5.2705</point>
+              <point>-20.6178 1.524</point>
+              <point>-20.4065 2.6392</point>
+              <point>-20.2271 3.1805</point>
+              <point>-19.4282 4.6834</point>
+              <point>-18.6958 5.5449</point>
+              <point>-18.261 5.9131</point>
+              <point>-16.8333 6.8433</point>
+              <point>-15.2151 7.3681</point>
+              <point>-14.0573 7.45</point>
+              <point>-15.2065 7.3087</point>
+              <point>-16.2883 7.0001</point>
+              <point>-16.8088 6.7885</point>
+              <point>-17.7725 6.2044</point>
+              <point>-18.6528 5.503</point>
+              <point>-19.3801 4.6475</point>
+              <point>-20.172 3.1566</point>
+              <point>-20.5579 1.5196</point>
+              <point>-20.538 -5.2615</point>
+              <point>-20.0233 -6.8671</point>
+              <point>-19.4776 -7.8471</point>
+              <point>-18.7669 -8.7198</point>
+              <point>-17.4881 -9.8196</point>
+              <point>-16.4742 -10.3068</point>
+              <point>-15.3979 -10.6389</point>
+              <point>-14.8403 -10.7184</point>
+              <point>-13.7205 -10.7535</point>
+              <point>-12.0236 -10.4844</point>
+              <point>-12.5908 -10.6622</point>
+              <height>0.6</height>
+            </polyline>
+          </geometry>
+          <material>
+            <ambient>0.2 0.2 0.2 1</ambient>
+            <diffuse>0.8 0.1 0.1 1</diffuse>
+          </material>
+        </visual>
+        <collision name='wall_collision_4'>
+          <geometry>
+            <polyline>
+              <point>-14.0164 4.4018</point>
+              <point>9.5089 4.4387</point>
+              <point>9.5389 4.4087</point>
+              <point>-14.0164 4.4018</point>
+              <height>0.6</height>
+            </polyline>
+          </geometry>
+          <max_contacts>10</max_contacts>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <bounce/>
+            <friction>
+              <torsional>
+                <ode/>
+              </torsional>
+              <ode/>
+            </friction>
+          </surface>
+        </collision>
+        <visual name='wall_visual_4'>
+          <geometry>
+            <polyline>
+              <point>-14.0164 4.4018</point>
+              <point>9.5089 4.4387</point>
+              <point>9.5389 4.4087</point>
+              <point>-14.0164 4.4018</point>
+              <height>0.6</height>
+            </polyline>
+          </geometry>
+          <material>
+            <ambient>0.2 0.2 0.2 1</ambient>
+            <diffuse>0.8 0.1 0.1 1</diffuse>
+          </material>
+        </visual>
+        <collision name='wall_collision_5'>
+          <geometry>
+            <polyline>
+              <point>9.479 4.4058</point>
+              <point>16.5576 4.4188</point>
+              <point>17.4778 4.2093</point>
+              <point>18.3267 3.7995</point>
+              <point>19.0292 3.1701</point>
+              <point>19.3068 2.7847</point>
+              <point>19.7068 1.9367</point>
+              <point>19.8454 1.4449</point>
+              <point>19.8836 0.5432</point>
+              <point>19.8195 0.0741</point>
+              <point>19.5019 -0.8151</point>
+              <point>18.9421 -1.5769</point>
+              <point>18.2166 -2.1749</point>
+              <point>13.7481 -4.7761</point>
+              <point>12.8788 -5.1346</point>
+              <point>11.9469 -5.2439</point>
+              <point>11.461 -5.2164</point>
+              <point>11.4721 -5.161</point>
+              <point>12.4079 -5.1563</point>
+              <point>12.8652 -5.0761</point>
+              <point>13.7198 -4.7231</point>
+              <point>18.5647 -1.8581</point>
+              <point>19.1923 -1.1744</point>
+              <point>19.6432 -0.366</point>
+              <point>19.8236 0.5451</point>
+              <point>19.7869 1.4314</point>
+              <point>19.4705 2.3393</point>
+              <point>18.9853 3.1291</point>
+              <point>18.2958 3.7479</point>
+              <point>17.0136 4.2914</point>
+              <point>16.087 4.3798</point>
+              <point>9.479 4.4058</point>
+              <height>0.6</height>
+            </polyline>
+          </geometry>
+          <max_contacts>10</max_contacts>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <bounce/>
+            <friction>
+              <torsional>
+                <ode/>
+              </torsional>
+              <ode/>
+            </friction>
+          </surface>
+        </collision>
+        <visual name='wall_visual_5'>
+          <geometry>
+            <polyline>
+              <point>9.479 4.4058</point>
+              <point>16.5576 4.4188</point>
+              <point>17.4778 4.2093</point>
+              <point>18.3267 3.7995</point>
+              <point>19.0292 3.1701</point>
+              <point>19.3068 2.7847</point>
+              <point>19.7068 1.9367</point>
+              <point>19.8454 1.4449</point>
+              <point>19.8836 0.5432</point>
+              <point>19.8195 0.0741</point>
+              <point>19.5019 -0.8151</point>
+              <point>18.9421 -1.5769</point>
+              <point>18.2166 -2.1749</point>
+              <point>13.7481 -4.7761</point>
+              <point>12.8788 -5.1346</point>
+              <point>11.9469 -5.2439</point>
+              <point>11.461 -5.2164</point>
+              <point>11.4721 -5.161</point>
+              <point>12.4079 -5.1563</point>
+              <point>12.8652 -5.0761</point>
+              <point>13.7198 -4.7231</point>
+              <point>18.5647 -1.8581</point>
+              <point>19.1923 -1.1744</point>
+              <point>19.6432 -0.366</point>
+              <point>19.8236 0.5451</point>
+              <point>19.7869 1.4314</point>
+              <point>19.4705 2.3393</point>
+              <point>18.9853 3.1291</point>
+              <point>18.2958 3.7479</point>
+              <point>17.0136 4.2914</point>
+              <point>16.087 4.3798</point>
+              <point>9.479 4.4058</point>
+              <height>0.6</height>
+            </polyline>
+          </geometry>
+          <material>
+            <ambient>0.2 0.2 0.2 1</ambient>
+            <diffuse>0.8 0.1 0.1 1</diffuse>
+          </material>
+        </visual>
+        <collision name='wall_collision_6'>
+          <geometry>
+            <polyline>
+              <point>11.0095 -5.1309</point>
+              <point>10.1369 -4.7678</point>
+              <point>9.7371 -4.5035</point>
+              <point>9.1007 -3.8185</point>
+              <point>8.5633 -3.0448</point>
+              <point>7.6474 -1.9823</point>
+              <point>6.9191 -1.3945</point>
+              <point>5.6937 -0.7213</point>
+              <point>4.3601 -0.3005</point>
+              <point>2.9573 -0.2239</point>
+              <point>-1.7408 -0.209</point>
+              <point>-2.6769 -0.257</point>
+              <point>-4.067 -0.4643</point>
+              <point>-5.4185 -0.8451</point>
+              <point>-6.2766 -1.216</point>
+              <point>-7.4904 -1.923</point>
+              <point>-8.5845 -2.8031</point>
+              <point>-9.241 -3.4745</point>
+              <point>-9.2909 -3.4505</point>
+              <point>-8.6244 -2.7583</point>
+              <point>-7.5221 -1.872</point>
+              <point>-5.8761 -0.9636</point>
+              <point>-4.0802 -0.4058</point>
+              <point>-2.6829 -0.1973</point>
+              <point>-1.7424 -0.149</point>
+              <point>2.9579 -0.1639</point>
+              <point>4.3671 -0.2409</point>
+              <point>5.7173 -0.6661</point>
+              <point>6.9556 -1.3469</point>
+              <point>7.6904 -1.9404</point>
+              <point>8.6109 -3.0083</point>
+              <point>9.1471 -3.7804</point>
+              <point>9.7773 -4.4589</point>
+              <point>10.5846 -4.9152</point>
+              <point>11.5063 -5.1935</point>
+              <point>11.0095 -5.1309</point>
+              <height>0.6</height>
+            </polyline>
+          </geometry>
+          <max_contacts>10</max_contacts>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <bounce/>
+            <friction>
+              <torsional>
+                <ode/>
+              </torsional>
+              <ode/>
+            </friction>
+          </surface>
+        </collision>
+        <visual name='wall_visual_6'>
+          <geometry>
+            <polyline>
+              <point>11.0095 -5.1309</point>
+              <point>10.1369 -4.7678</point>
+              <point>9.7371 -4.5035</point>
+              <point>9.1007 -3.8185</point>
+              <point>8.5633 -3.0448</point>
+              <point>7.6474 -1.9823</point>
+              <point>6.9191 -1.3945</point>
+              <point>5.6937 -0.7213</point>
+              <point>4.3601 -0.3005</point>
+              <point>2.9573 -0.2239</point>
+              <point>-1.7408 -0.209</point>
+              <point>-2.6769 -0.257</point>
+              <point>-4.067 -0.4643</point>
+              <point>-5.4185 -0.8451</point>
+              <point>-6.2766 -1.216</point>
+              <point>-7.4904 -1.923</point>
+              <point>-8.5845 -2.8031</point>
+              <point>-9.241 -3.4745</point>
+              <point>-9.2909 -3.4505</point>
+              <point>-8.6244 -2.7583</point>
+              <point>-7.5221 -1.872</point>
+              <point>-5.8761 -0.9636</point>
+              <point>-4.0802 -0.4058</point>
+              <point>-2.6829 -0.1973</point>
+              <point>-1.7424 -0.149</point>
+              <point>2.9579 -0.1639</point>
+              <point>4.3671 -0.2409</point>
+              <point>5.7173 -0.6661</point>
+              <point>6.9556 -1.3469</point>
+              <point>7.6904 -1.9404</point>
+              <point>8.6109 -3.0083</point>
+              <point>9.1471 -3.7804</point>
+              <point>9.7773 -4.4589</point>
+              <point>10.5846 -4.9152</point>
+              <point>11.5063 -5.1935</point>
+              <point>11.0095 -5.1309</point>
+              <height>0.6</height>
+            </polyline>
+          </geometry>
+          <material>
+            <ambient>0.2 0.2 0.2 1</ambient>
+            <diffuse>0.8 0.1 0.1 1</diffuse>
+          </material>
+        </visual>
+        <collision name='wall_collision_7'>
+          <geometry>
+            <polyline>
+              <point>-9.2436 -3.4277</point>
+              <point>-10.371 -4.961</point>
+              <point>-11.0707 -6.1844</point>
+              <point>-11.3602 -6.556</point>
+              <point>-12.0747 -7.1738</point>
+              <point>-12.4751 -7.419</point>
+              <point>-13.3697 -7.7142</point>
+              <point>-13.8393 -7.7744</point>
+              <point>-14.7808 -7.7107</point>
+              <point>-15.6685 -7.3922</point>
+              <point>-16.4506 -6.8559</point>
+              <point>-17.0488 -6.1313</point>
+              <point>-17.2728 -5.7104</point>
+              <point>-17.5588 -4.8154</point>
+              <point>-17.6249 -3.8716</point>
+              <point>-17.5752 1.3007</point>
+              <point>-17.358 2.2223</point>
+              <point>-16.8758 3.0278</point>
+              <point>-16.5558 3.3818</point>
+              <point>-15.378 4.1608</point>
+              <point>-13.9582 4.4145</point>
+              <point>-15.3551 4.1051</point>
+              <point>-16.1561 3.6312</point>
+              <point>-16.8265 2.9934</point>
+              <point>-17.304 2.196</point>
+              <point>-17.4299 1.7484</point>
+              <point>-17.5606 0.8261</point>
+              <point>-17.5649 -3.8712</point>
+              <point>-17.5002 -4.8023</point>
+              <point>-17.2174 -5.6873</point>
+              <point>-16.9991 -6.0977</point>
+              <point>-16.4083 -6.8132</point>
+              <point>-15.6425 -7.3382</point>
+              <point>-14.7708 -7.6515</point>
+              <point>-13.8449 -7.7147</point>
+              <point>-13.3838 -7.6558</point>
+              <point>-12.5016 -7.3651</point>
+              <point>-11.406 -6.5172</point>
+              <point>-10.1588 -4.5388</point>
+              <point>-9.2436 -3.4277</point>
+              <height>0.6</height>
+            </polyline>
+          </geometry>
+          <max_contacts>10</max_contacts>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <bounce/>
+            <friction>
+              <torsional>
+                <ode/>
+              </torsional>
+              <ode/>
+            </friction>
+          </surface>
+        </collision>
+        <visual name='wall_visual_7'>
+          <geometry>
+            <polyline>
+              <point>-9.2436 -3.4277</point>
+              <point>-10.371 -4.961</point>
+              <point>-11.0707 -6.1844</point>
+              <point>-11.3602 -6.556</point>
+              <point>-12.0747 -7.1738</point>
+              <point>-12.4751 -7.419</point>
+              <point>-13.3697 -7.7142</point>
+              <point>-13.8393 -7.7744</point>
+              <point>-14.7808 -7.7107</point>
+              <point>-15.6685 -7.3922</point>
+              <point>-16.4506 -6.8559</point>
+              <point>-17.0488 -6.1313</point>
+              <point>-17.2728 -5.7104</point>
+              <point>-17.5588 -4.8154</point>
+              <point>-17.6249 -3.8716</point>
+              <point>-17.5752 1.3007</point>
+              <point>-17.358 2.2223</point>
+              <point>-16.8758 3.0278</point>
+              <point>-16.5558 3.3818</point>
+              <point>-15.378 4.1608</point>
+              <point>-13.9582 4.4145</point>
+              <point>-15.3551 4.1051</point>
+              <point>-16.1561 3.6312</point>
+              <point>-16.8265 2.9934</point>
+              <point>-17.304 2.196</point>
+              <point>-17.4299 1.7484</point>
+              <point>-17.5606 0.8261</point>
+              <point>-17.5649 -3.8712</point>
+              <point>-17.5002 -4.8023</point>
+              <point>-17.2174 -5.6873</point>
+              <point>-16.9991 -6.0977</point>
+              <point>-16.4083 -6.8132</point>
+              <point>-15.6425 -7.3382</point>
+              <point>-14.7708 -7.6515</point>
+              <point>-13.8449 -7.7147</point>
+              <point>-13.3838 -7.6558</point>
+              <point>-12.5016 -7.3651</point>
+              <point>-11.406 -6.5172</point>
+              <point>-10.1588 -4.5388</point>
+              <point>-9.2436 -3.4277</point>
+              <height>0.6</height>
+            </polyline>
+          </geometry>
+          <material>
+            <ambient>0.2 0.2 0.2 1</ambient>
+            <diffuse>0.8 0.1 0.1 1</diffuse>
+          </material>
+        </visual>
+        <self_collide>0</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+    </model>
+    <state world_name='default'>
+      <sim_time>712 980000000</sim_time>
+      <real_time>616 762672153</real_time>
+      <wall_time>1773320530 228863415</wall_time>
+      <iterations>616088</iterations>
+      <model name='continuous_track'>
+        <pose>-0.089474 0.010436 0 0 -0 0</pose>
+        <scale>1 1 1</scale>
+        <link name='track_walls'>
+          <pose>-0.089474 0.010436 0 0 -0 0</pose>
+          <velocity>0 0 0 0 -0 0</velocity>
+          <acceleration>0 0 0 0 -0 0</acceleration>
+          <wrench>0 0 0 0 -0 0</wrench>
+        </link>
+      </model>
+      <model name='ground_plane'>
+        <pose>0 0 0 0 -0 0</pose>
+        <scale>1 1 1</scale>
+        <link name='link'>
+          <pose>0 0 0 0 -0 0</pose>
+          <velocity>0 0 0 0 -0 0</velocity>
+          <acceleration>0 0 0 0 -0 0</acceleration>
+          <wrench>0 0 0 0 -0 0</wrench>
+        </link>
+      </model>
+      <light name='sun'>
+        <pose>0 0 10 0 -0 0</pose>
+      </light>
+      <light name='user_point_light_0'>
+        <pose>10 6 4 0 -0 0</pose>
+      </light>
+      <light name='user_point_light_0_clone'>
+        <pose>-10 6 4 0 -0 0</pose>
+      </light>
+      <light name='user_point_light_0_clone_0'>
+        <pose>6 -10 4 0 -0 0</pose>
+      </light>
+    </state>
+    <gui fullscreen='0'>
+      <camera name='user_camera'>
+        <pose>-0.1815 -59.3482 70.9965 -0 0.901796 1.61954</pose>
+        <view_controller>orbit</view_controller>
+        <projection_type>perspective</projection_type>
+      </camera>
+    </gui>
+    <light name='user_point_light_0' type='point'>
+      <pose>0.209716 -0.01205 1 0 -0 0</pose>
+      <diffuse>0.5 0.5 0.5 1</diffuse>
+      <specular>0.1 0.1 0.1 1</specular>
+      <attenuation>
+        <range>20</range>
+        <constant>0.5</constant>
+        <linear>0.01</linear>
+        <quadratic>0.001</quadratic>
+      </attenuation>
+      <cast_shadows>0</cast_shadows>
+      <direction>0 0 -1</direction>
+    </light>
+    <light name='user_point_light_0_clone' type='point'>
+      <pose>-5.73417 2.51295 4 0 -0 0</pose>
+      <diffuse>0.498039 0.498039 0.498039 1</diffuse>
+      <specular>0.0980392 0.0980392 0.0980392 1</specular>
+      <direction>0 0 -1</direction>
+      <attenuation>
+        <range>20</range>
+        <constant>0.5</constant>
+        <linear>0.01</linear>
+        <quadratic>0.001</quadratic>
+      </attenuation>
+      <cast_shadows>0</cast_shadows>
+    </light>
+    <light name='user_point_light_0_clone_0' type='point'>
+      <pose>-0.612769 -6.53508 4 0 -0 0</pose>
+      <diffuse>0.494118 0.494118 0.494118 1</diffuse>
+      <specular>0.0941176 0.0941176 0.0941176 1</specular>
+      <direction>0 0 -1</direction>
+      <attenuation>
+        <range>20</range>
+        <constant>0.5</constant>
+        <linear>0.01</linear>
+        <quadratic>0.001</quadratic>
+      </attenuation>
+      <cast_shadows>0</cast_shadows>
+    </light>
+  </world>
+</sdf>
