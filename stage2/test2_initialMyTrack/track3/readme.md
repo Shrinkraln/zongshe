@@ -1,0 +1,2 @@
+mesh创建的track,目前还未测试lidar和collision
+测试结果选择使用box
