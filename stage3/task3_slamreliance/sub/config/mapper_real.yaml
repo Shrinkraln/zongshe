@@ -1,0 +1,116 @@
+# ============================================================
+# mapper_real.yaml —— 第3课 实车/孪生建图参数
+# 基底：/opt/ros/humble/share/slam_toolbox/config/mapper_params_online_async.yaml
+#       帧对齐（odom/map/base_footprint、/scan）与平台桥接契约一致，无需改动。
+# 纪律：本文件 ＝ S2 验证版参数 ＋ 本组噪声先验。
+#       （若 S2 验证版到手，以其为基底叠加本文件的三项迁移标注。）
+# ============================================================
+slam_toolbox:
+  ros__parameters:
+
+    # --------------------------------------------------------
+    # 【迁移三项① 地图分辨率】物理常数——必测重调（P3）
+    # 本组硬件口径：PC Ubuntu 代替树莓派——算力不再是主要约束，
+    # 折中口径改为"场景尺度 ＋ 真值图分辨率(0.05)对照"；
+    # 若 S2 验证版或实车侧有不同取值，按实测口径改此值。
+    # --------------------------------------------------------
+    resolution: 0.05
+
+    # --------------------------------------------------------
+    # 【迁移三项② 扫描匹配阈值】物理常数——必测重调（P3）
+    # 待填：实车雷达噪声水平与孪生理想模型不同（第2课差异记录表 A/B 归因的一部分在此消化）
+    # 实际载体（humble 无"匹配阈值"单键）：
+    #   correlation_search_space_smear_deviation —— 匹配搜索空间弥散（里程计初值被信多少）
+    #   link_match_minimum_response_fine          —— 帧间匹配最低响应
+    #   loop_match_maximum_variance_coarse        —— 回环闭合最大方差容忍
+    # --------------------------------------------------------
+    # 本组实测记录（预验证，2026-09-14，须记入预注册单④变更登记）：
+    #   --slip 0.05 下用默认参数建图，出现明显漂移（重影/错位）——
+    #   机理：真分叉里程计边被插帧加密后密集写进图，直线段激光无纵向约束。
+    #   处置（经实机验证）：
+    #     smear 不能大于 0.1——karto 硬校验 [0.005, 0.1]（实测 0.25 启动即崩
+    #     "Mapper Error: Smear deviation too small: Must be between 0.005 and 0.1"），
+    #     默认 0.1 已是上限，"更不信里程计初值"不能靠此键再加码；
+    #     回环方差 3.0→4.0（容忍更多累积漂移）＋ loop_search_maximum_distance
+    #     3.0→6.0（扩大回环搜索半径，第二圈闭合机会）——这才是有效旋钮。
+    #   A/B 对照（--slip 0，odom≡truth）建图干净则证明漂移100%归因于里程计分叉。
+    #   课上以本组 S1 闭合误差实测重定，出处写进参数迁移说明。
+    correlation_search_space_smear_deviation: 0.1    # 硬上限（karto 校验），勿超
+    link_match_minimum_response_fine: 0.1            # 待定②
+    loop_match_maximum_variance_coarse: 4.0          # 待定②（预验证 slip=0.05 口径）
+
+    # --------------------------------------------------------
+    # 【迁移三项③ 里程计噪声先验】物理常数——必测重调（P3/P4）
+    # 待填：由本组 S1 第10课闭合误差表推得，出处必须可查（可复算记录 L1）
+    # 推导规则：闭合误差大 → 里程计可信度低 → 噪声先验取大 → SLAM 更多依赖激光
+    # 示例填写：odometry_noise_prior: 0.25   # 出处：S1第10课闭合误差表 第N行（实测 X cm）
+    # 说明：slam_toolbox 无同名内置参数（PPT 标注"示意"）；课程口径下，
+    #       该键记录本组先验值并同步调整②的搜索空间/响应阈值，二者一致。
+    # --------------------------------------------------------
+    # odometry_noise_prior: <待填>   # 出处：S1第10课闭合误差表 第__行
+
+    # Plugin params
+    solver_plugin: solver_plugins::CeresSolver
+    ceres_linear_solver: SPARSE_NORMAL_CHOLESKY
+    ceres_preconditioner: SCHUR_JACOBI
+    ceres_trust_strategy: LEVENBERG_MARQUARDT
+    ceres_dogleg_type: TRADITIONAL_DOGLEG
+    ceres_loss_function: None
+
+    # ROS Parameters（帧对齐平台桥接契约，勿改）
+    odom_frame: odom
+    map_frame: map
+    base_frame: base_footprint
+    scan_topic: /scan
+    use_map_saver: true
+    mode: mapping #localization
+
+    debug_logging: false
+    throttle_scans: 1
+    transform_publish_period: 0.02
+    map_update_interval: 5.0
+    min_laser_range: 0.0
+    max_laser_range: 5.0   # 平台24线雷达量程5m（humble默认20.0超出能力，按实测口径设定）
+    minimum_time_interval: 0.5
+    transform_timeout: 0.2
+    tf_buffer_duration: 30.
+    stack_size_to_use: 40000000
+    enable_interactive_mode: true
+
+    # General Parameters
+    use_scan_matching: true
+    use_scan_barycenter: true
+    # 24 线稀疏雷达：README 5.6 建议下调插帧阈值提高插帧密度——
+    # 由默认 0.5/0.5 降至 0.1/0.1（每走 10cm 或转 5.7° 即处理一帧扫描；
+    # 本组 PC 算力非瓶颈，可承受更密插帧；树莓派组需自行折中）
+    minimum_travel_distance: 0.1
+    minimum_travel_heading: 0.1
+    scan_buffer_size: 10
+    scan_buffer_maximum_scan_distance: 10.0
+    link_scan_maximum_distance: 1.5
+    loop_search_maximum_distance: 6.0   # 待定②（slip=0.05 漂移下扩大回环搜索半径，增加第二圈闭合机会）
+    do_loop_closing: true
+    loop_match_minimum_chain_size: 10
+    loop_match_minimum_response_coarse: 0.35
+    loop_match_minimum_response_fine: 0.45
+
+    # Correlation Parameters
+    correlation_search_space_dimension: 0.5
+    correlation_search_space_resolution: 0.01
+
+    # Loop Closure Parameters
+    loop_search_space_dimension: 8.0
+    loop_search_space_resolution: 0.05
+    loop_search_space_smear_deviation: 0.03
+
+    # Scan Matcher Parameters
+    distance_variance_penalty: 0.5
+    angle_variance_penalty: 1.0
+    fine_search_angle_offset: 0.00349
+    coarse_search_angle_offset: 0.349
+    coarse_angle_resolution: 0.0349
+    minimum_angle_penalty: 0.9
+    minimum_distance_penalty: 0.5
+    use_response_expansion: true
+    min_pass_through: 2
+    occupancy_threshold: 0.1
