@@ -10,5 +10,6 @@
 | 2 | 平台参数生成器输出（RPP desired 0.8、robot_radius 0.22、膨胀 0.55、use_sim_time True） | 参数无本组出处；use_sim_time 与墙钟契约冲突；footprint 非本组值 | 生成后核对四项（P14）：RPP✓ 禁倒车✓；robot_radius→0.20（embodied_env.py）；膨胀→0.30 起步实测最窄通道；use_sim_time 全量翻 false；SHA256 冻结 | "AI 给出参数默认值／无本组出处／按四项核对改写／已更正" |
 | 3 | navigate_to_service.py（Claude 起草，nav2_ws/src/navigate_to_service/） | 对照 P13 案例② 审核：无限重试？缺字段自动补默认？失败无原因？超时未先取消？ | 按契约核：预算 60s→先 cancel 再返回 TIMEOUT；FAILED 带可读原因（GetMap 预检+错误码翻译）；缺字段拒绝执行；无无限重试。**实测缺陷 ×3**：① 回调名 `handle` 遮蔽 rclpy.Node.handle 属性→启动崩溃，改名 `_on_navigate_to`；② Ctrl+C 二次 shutdown 崩溃，加 `rclpy.ok()` 守卫；③ `yaw_to_quat` 四元组解包进 2 变量→回调内异常无响应，改为直接写 z/w 并删死函数 | "AI 写了 navigate_to 封装／实测发现 3 处缺陷（handle 遮蔽、二次 shutdown、四元组解包）／均已更正" |
 | 4 | task_plan.md 任务清单（Claude 生成） | 命令与判据未经执行验证 | 执行前逐条审核；执行中修改回写清单「变更登记」 | "AI 生成任务清单／执行中回写 N 处修改／已更正" |
+| 5 | Claude 分析 ②④ traj/ROS2 日志并起草记录表四要素、T3.4 执行手册、障碍表镜像更正与"②注入未生效"结论 | AI 结论均为日志推断，未经组员复核 | 组员复核结论（填写）：□④目标 (1.89,9.62) 与 Goal failed 55.3s □②六目标与 Goal succeeded □真值 6 障碍表 □采纳 T3.4 手册 | "AI 分析实验数据并起草记录/手册／组员复核后采纳" |
 
 **签字**：填写：________　审核员：________　日期：________
