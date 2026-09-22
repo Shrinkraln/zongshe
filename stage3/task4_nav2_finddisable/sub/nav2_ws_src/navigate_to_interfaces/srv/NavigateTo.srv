@@ -1,0 +1,11 @@
+# 第4课 navigate_to 服务契约（PPT P8）：
+# 请求＝目标位姿（地图坐标系）；响应＝三字段：result / reason / elapsed
+# 失败必须带原因；超时先取消再返回；缺字段拒绝执行
+float64 x
+float64 y
+float64 theta
+---
+# result ∈ {SUCCEEDED, FAILED, TIMEOUT}
+string result
+string reason          # 可读文字，错误码不算
+float64 elapsed        # 用时（s）
