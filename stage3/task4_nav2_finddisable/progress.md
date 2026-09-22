@@ -33,6 +33,7 @@
 | 2026-09-22 | T3.2 ④ | 组员 | rviz 原生对照目标 (1.89,9.62)（自由格，偏离"同 T2.5 障碍内点"设计）→ 55.3s 恢复风暴 → **Goal failed 16:44:56（无原因文本）**；无录像（两段录屏晚于失败时刻）——④行四要素已按日志+traj 完稿（findings #32）；障碍内点原生对照待补测 |
 | 2026-09-22 | T3.3 ② | 组员 | **注入未生效**：栈 16:26:57–17:11:19 未重启，inj2（16:47:16）从未加载 → 六目标路线无屏蔽正常导航 Goal succeeded（findings #31）；②行按"无效注入+补测"记录；补测流程已写入 T3.3 变更登记 |
 | 2026-09-22 | 数据分析 | Claude | 障碍表 y 镜像更正（真值 6 障碍，findings #33）；②④ traj/日志分析并回写记录表两行；T3.4 执行手册已出（下节）；录像-实验映射（findings #34） |
+| 2026-09-22 | T3.4 ③ 主试 | 组员 | **执行无效**——注入工具发布器存活 0.5s < DDS 端点发现延迟 ~1.2s，AMCL 零接收（findings #35）；63.2s 实为无注入正常导航（Goal succeeded 39s，(5.06,2.95)；AMCL 漂移 0.34m 可作基线）；工具已修并实测送达（26 条/3s）；补测待跑（主试重跑＋U1 复测） |
 |  | T0.3 预注册单 |  |  |
 |  | T0.4 基线跑分 |  |  |
 |  | T1.1–T1.7 实验4-1 |  |  |
@@ -70,12 +71,11 @@
    a. T5 起日志（**唯一文件名**，findings #17/#27）：`python3 ~/workspace/zs3_fyue/embodied-sim-lite-master/traj_logger.py --out ~/sim_ops/logs/traj_G42_inject3_amcl.csv`
    b. 开录屏（P19 三要素：注入动作＋rviz 反应＋最终结果）。
    c. T4 rviz `2D Nav Goal` 下单点目标 **建议 (6.0,3.0)**（真值障碍表核对：距 (7.52,4.56,r0.72)=2.18m、距 (5.43,1.60,r0.51)=1.51m，自由且路程 ≥5m）。
-   d. 车移动 ≥2m 后（看 rviz 或 T5 日志坐标）**立刻**读真值并注入：
+   d. 车移动 ≥2m 后（看 rviz 或 T5 日志坐标）**立刻**注入（一键工具＝读真值＋加偏置＋发布，输出合并）：
       ```bash
-      python3 /home/imain/workspace/zongshe_sum/stage3/task3_slamreliance/truth_probe.py --host 127.0.0.1   # 记 truthx/truthy/truthyaw
-      python3 /home/imain/workspace/zongshe_sum/stage3/task3_slamreliance/set_initial_pose.py --x <truthx+1.0> --y <truthy> --yaw-deg <truthyaw+30>
+      python3 /home/imain/workspace/zongshe_sum/stage3/task4_nav2_finddisable/scripts/inject_pose_bias.py --host 127.0.0.1
       ```
-      （车在动、真值读值有 0.1–0.5m 陈旧，课程 ±1m/30° 口径可容忍——如实记入记录。）
+      （默认偏置 +1.0m x／+30° yaw；输出含真值与注入值可直接抄录。车在动、真值读值有 0.1–0.5m 陈旧，课程 ±1m/30° 口径可容忍——如实记入记录。）
    e. **观察清单**（③行四要素素材）：粒子云是否重新收敛？**自恢复判定 ≤30s** 内是否继续导航？是否"锁定"（聚簇稳定不回摆）？轨迹是否绕圈/回摆（traj 事后分析）？是否触发恢复行为？最终 result（reached/failed/aborted）？全程记墙钟时刻。
    f. 车到达或失败后：Ctrl+C traj_logger（写盘）、停录屏。
 7. **第二试（公共不可信区域 U1 复测）**：
@@ -110,7 +110,7 @@
 **待办**：
 1. ~~①结局补报~~ **✓ 已闭环（findings #30）：恢复用尽→Goal failed，自然裁决，无人工干预**。⚠️ 回基线（/inject false）待组员执行
 2. ~~T3.2 ④~~ → **已执行并回写（findings #32）**：Goal failed 55.3s（无原因文本）。⚠️ 无录像（可选补录，见 D2）；目标点偏离设计——**障碍内点原生对照待补测**（findings #5）
-3. T3.3 ② → **无效注入，补测待做**（流程在 T3.3 变更登记：inj2 重启栈→scan_mask→接线核验→同一六目标路线→traj_G42_inject2_mask_v2.csv）；**T3.4 ③ → 执行手册已出（下节），待组员执行**
+3. T3.3 ② → **无效注入，补测待做**（流程在 T3.3 变更登记：inj2 重启栈→scan_mask→接线核验→同一六目标路线→traj_G42_inject2_mask_v2.csv）；**T3.4 ③ → 主试无效已归档（记录表③行标"补测"，traj+录屏入库，findings #35），工具已修实测送达；课后补测＝重跑主试（traj_G42_inject3_amcl_v2.csv）＋U1 复测（traj_G42_inject3_amcl_repeat.csv）**
 4. 障碍表更正已回写 T1.1（findings #33）——**此后所有选点用真值 6 障碍表**
 5. 实车公共基线抄录（课堂）；三条能力边界声明；六行记录表完稿（②④ 已写，剩 ③ + 实车两行）
 6. 数据解读：预测-实测对照（①偏差已记、④已对照 findings #32、②不启封、③待执行）、SR@d_th 选做、回归 run_action1（改过膨胀→必做）

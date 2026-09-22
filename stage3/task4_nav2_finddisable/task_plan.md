@@ -293,11 +293,14 @@
   ros2 topic echo /amcl_pose --once
   python3 /home/imain/workspace/zongshe_sum/stage3/task3_slamreliance/truth_probe.py --host 127.0.0.1
   # T4 下发单点目标 → 车行驶中（已移动 ≥2 m）发布偏置 1 m（位置＋朝向）的 /initialpose：
-  python3 /home/imain/workspace/zongshe_sum/stage3/task3_slamreliance/set_initial_pose.py --x <真值x+1.0> --y <真值y> --yaw-deg <真值yaw+30>
+  python3 /home/imain/workspace/zongshe_sum/stage3/task4_nav2_finddisable/scripts/inject_pose_bias.py --host 127.0.0.1
+  # ↑ 一键工具＝读真值＋加偏置＋发布（默认 +1.0m x／+30° yaw，输出含真值与注入值；另见变更登记第 2 次）
   # 在公共不可信区域附近重复一次
   ```
 - **观察与记录**：能否重新收敛、用时、是否锁定；记录表③行（标"条件 B 复测"）；"绑架"行由实车公共基线抄录（本组不执行）。
 - **变更登记**：2026-09-22 已出执行手册（见 progress.md「T3.4 执行手册」）；组员 17:11:59 已实测 AMCL bringup 可起（18s 后主动关停）。**选点更正（findings #33）**：本课障碍表已更正为真值 6 障碍，目标按真值表避开；U1 复测目标由 (4.2,0.5) 外移至 **(4.2,1.0)**（原点距南墙仅 0.45m，落在 RPP 前视停线内——④ 教训）。执行后由组员回写结果。
+- **变更登记（第 2 次）**：2026-09-22 执行日——注入操作由原两条命令（truth_probe + set_initial_pose，人工抄录延迟 0.5–1s）合并为一键工具 **scripts/inject_pose_bias.py**（读真值→加偏置→发布 /initialpose，输出合并；偏置默认 +1.0m x／+30° yaw，可用 --dx/--dy/--yaw-bias 调）。理由：车在动，真值读出与注入之间的手工抄录越短越新鲜。
+- **变更登记（第 3 次）**：2026-09-22 主试执行**无效**——注入工具发布后仅存活 0.5s < DDS 端点发现延迟 ~1.2s（实测），AMCL 零接收（容器日志 initialPoseReceived 仅起栈预置 1 次，findings #35）；63.2s 导航为无注入正常运行（Goal succeeded 39s，AMCL 漂移 0.34m 可作基线）。工具已修（存活 3s 重复发布 30 次，实测送达）；**补测流程**：重跑主试（起跑点如实登记，traj_G42_inject3_amcl_v2.csv）＋ U1 复测（traj_G42_inject3_amcl_repeat.csv）；无效段录像按纪律归档。
 
 ---
 
