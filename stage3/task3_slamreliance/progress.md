@@ -22,6 +22,13 @@
 - [x] **预验证完成（四判据全过）**：A/B 归因落定（稀疏为主因）；条件A 正确初始位姿收敛至错误位置（误差 2.01m、椭圆长轴 0.69m 长走廊签名）；工具三件套（truth_probe/set_initial_pose/compare_maps）实测验证
 - [ ] 待做：收尾清理（pkill/端口）→ 统计表预演行誊写 → git 提交（待用户确认）
 
+## 2026-09-22 · 会话3：sub/ 提交目录整理（用户要求按 task_plan 整理提交数据）
+- [x] 对照 task_plan Phase 6 验收六项建立 `sub/` 提交快照（沿用 task4 sub 惯例）：六表 + `config/mapper_real.yaml` + `scripts/` 三工具 + 预验证 `maps/` 与 `overlays/`（列为支撑材料）
+- [x] `sub/README.md`：提交物清单与状态（如实标注"模板待课填""view_frames 未跑待归档"）、支撑材料用途、待办、sha256 校验行
+- [x] 全部文件与任务目录原件 sha256 一致；任务目录原件零改动（sub/ 为快照）
+- [x] git 提交（单独一次，仅 stage3/task3_slamreliance/sub/）
+- 范围：仅 task3（用户确认，不涉及 task4/task1）
+
 ## 待办（下一步·课上）
 - [ ] 打印材料带齐（统计表/预注册单/AI表/互评表/参数迁移说明/区域图）
 - [ ] 按现场执行清单 0 节做课前检查（ping/依赖/8000端口/pkill 残留）
