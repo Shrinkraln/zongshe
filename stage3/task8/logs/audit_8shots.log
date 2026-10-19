@@ -1,0 +1,52 @@
+# 八发测试 · 第8课 task8.pptx P14（重跑追加，最新一次在末尾）
+[FAIL] ①好 清单内自由格 W1_door | navigate_to({"x": 8.6, "y": 5.2, "label": "door"}) → ok=False reason='目标(8.6,5.2)位于障碍物内'（期望 ok=True，含 'ok'，规则 ）
+[PASS] ①坏a 地图外 (50,50)＝官方T2 | navigate_to({"x": 50, "y": 50}) → ok=False reason='目标(50,50)超出地图范围'（期望 ok=False，含 '超出地图范围'，规则 ①）
+[PASS] ①坏b 障碍内 (4.52,7.80)＝T5 | navigate_to({"x": 4.52, "y": 7.8}) → ok=False reason='目标(4.52,7.8)位于障碍物内'（期望 ok=False，含 '位于障碍物内'，规则 ①）
+[FAIL] ②好 fresh cup | navigate_to({"x": 2.7, "y": 4.5, "label": "cup"}) → ok=False reason='目标(2.7,4.5)位于障碍物内'（期望 ok=True，含 'ok'，规则 ）
+[FAIL] ②坏a 清单外 label=kitchen | navigate_to({"x": 5.0, "y": 5.0, "label": "kitchen"}) → ok=False reason='目标(5.0,5.0)位于障碍物内'（期望 ok=False，含 "不存在'kitchen'"，规则 ②）
+[FAIL] ②坏b 超龄 cup age2000s＝T6 | navigate_to({"x": 2.7, "y": 4.5, "label": "cup"}) → ok=False reason='目标(2.7,4.5)位于障碍物内'（期望 ok=False，含 '已过期'，规则 ②）
+[FAIL] ③好 值域有限 label=W1_door | navigate_to({"x": 8.6, "y": 5.2, "label": "W1_door"}) → ok=False reason='目标(8.6,5.2)位于障碍物内'（期望 ok=True，含 'ok'，规则 ）
+[PASS] ③坏 x=NaN 非有限数值 | navigate_to({"x": NaN, "y": 5.2}) → ok=False reason='参数非法：x=nan 非有限数值'（期望 ok=False，含 '非有限数值'，规则 ③）
+[FAIL] ④好 电量60% | navigate_to({"x": 8.6, "y": 5.2}) → ok=False reason='目标(8.6,5.2)位于障碍物内'（期望 ok=True，含 'ok'，规则 ）
+[FAIL] ④坏 电量10% | navigate_to({"x": 8.6, "y": 5.2}) → ok=False reason='目标(8.6,5.2)位于障碍物内'（期望 ok=False，含 '电量不足'，规则 ④）
+八发测试: 3/10 passed（八发基线+2冗余）
+
+# 八发测试 · 第8课 task8.pptx P14（重跑追加，最新一次在末尾）
+[PASS] ①好 清单内自由格 W1_door | navigate_to({"x": 8.6, "y": 5.2, "label": "door"}) → ok=True reason='ok'（期望 ok=True，含 'ok'，规则 ）
+[PASS] ①坏a 地图外 (50,50)＝官方T2 | navigate_to({"x": 50, "y": 50}) → ok=False reason='目标(50,50)超出地图范围'（期望 ok=False，含 '超出地图范围'，规则 ①）
+[PASS] ①坏b 障碍内 (4.52,7.80)＝T5 | navigate_to({"x": 4.52, "y": 7.8}) → ok=False reason='目标(4.52,7.8)位于障碍物内'（期望 ok=False，含 '位于障碍物内'，规则 ①）
+[PASS] ②好 fresh cup | navigate_to({"x": 2.7, "y": 4.5, "label": "cup"}) → ok=True reason='ok'（期望 ok=True，含 'ok'，规则 ）
+[PASS] ②坏a 清单外 label=kitchen | navigate_to({"x": 5.0, "y": 5.0, "label": "kitchen"}) → ok=False reason="语义地图中不存在'kitchen'。当前可用: W1_door, W2_charge, W3_podium, W4_shelf, W5_window, W6_bench, W7_trash, W8_home, bench, bottle, chair, charger, cup, door, home, podium, shelf, trash, window"（期望 ok=False，含 "不存在'kitchen'"，规则 ②）
+[PASS] ②坏b 超龄 cup age2000s＝T6 | navigate_to({"x": 2.7, "y": 4.5, "label": "cup"}) → ok=False reason="语义地图中'cup'信息已过期（age_s=2900s > τ=1800s）。当前可用: W1_door, W2_charge, W3_podium, W4_shelf, W5_window, W6_bench, W7_trash, W8_home, bench, bottle, chair, charger, cup, door, home, podium, shelf, trash, window"（期望 ok=False，含 '已过期'，规则 ②）
+[PASS] ③好 值域有限 label=W1_door | navigate_to({"x": 8.6, "y": 5.2, "label": "W1_door"}) → ok=True reason='ok'（期望 ok=True，含 'ok'，规则 ）
+[PASS] ③坏 x=NaN 非有限数值 | navigate_to({"x": NaN, "y": 5.2}) → ok=False reason='参数非法：x=nan 非有限数值'（期望 ok=False，含 '非有限数值'，规则 ③）
+[PASS] ④好 电量60% | navigate_to({"x": 8.6, "y": 5.2}) → ok=True reason='ok'（期望 ok=True，含 'ok'，规则 ）
+[PASS] ④坏 电量10% | navigate_to({"x": 8.6, "y": 5.2}) → ok=False reason='电量不足 15%，拒绝新任务（当前 10%）'（期望 ok=False，含 '电量不足'，规则 ④）
+八发测试: 10/10 passed（八发基线+2冗余）
+
+# 八发测试 · 第8课 task8.pptx P14（重跑追加，最新一次在末尾）
+[PASS] ①好 清单内自由格 W1_door | navigate_to({"x": 8.6, "y": 5.2, "label": "door"}) → ok=True reason='ok'（期望 ok=True，含 'ok'，规则 ）
+[PASS] ①坏a 地图外 (50,50)＝官方T2 | navigate_to({"x": 50, "y": 50}) → ok=False reason='目标(50,50)超出地图范围'（期望 ok=False，含 '超出地图范围'，规则 ①）
+[PASS] ①坏b 障碍内 (4.52,7.80)＝T5 | navigate_to({"x": 4.52, "y": 7.8}) → ok=False reason='目标(4.52,7.8)位于障碍物内'（期望 ok=False，含 '位于障碍物内'，规则 ①）
+[PASS] ②好 fresh cup | navigate_to({"x": 2.7, "y": 4.5, "label": "cup"}) → ok=True reason='ok'（期望 ok=True，含 'ok'，规则 ）
+[PASS] ②坏a 清单外 label=kitchen | navigate_to({"x": 5.0, "y": 5.0, "label": "kitchen"}) → ok=False reason="语义地图中不存在'kitchen'。当前可用: W1_door, W2_charge, W3_podium, W4_shelf, W5_window, W6_bench, W7_trash, W8_home, bench, bottle, chair, charger, cup, door, home, podium, shelf, trash, window"（期望 ok=False，含 "不存在'kitchen'"，规则 ②）
+[PASS] ②坏b 超龄 cup age2000s＝T6 | navigate_to({"x": 2.7, "y": 4.5, "label": "cup"}) → ok=False reason="语义地图中'cup'信息已过期（age_s=2000s > τ=1800s）。当前可用: W1_door, W2_charge, W3_podium, W4_shelf, W5_window, W6_bench, W7_trash, W8_home, bench, bottle, chair, charger, cup, door, home, podium, shelf, trash, window"（期望 ok=False，含 '已过期'，规则 ②）
+[PASS] ③好 值域有限 label=W1_door | navigate_to({"x": 8.6, "y": 5.2, "label": "W1_door"}) → ok=True reason='ok'（期望 ok=True，含 'ok'，规则 ）
+[PASS] ③坏 x=NaN 非有限数值 | navigate_to({"x": NaN, "y": 5.2}) → ok=False reason='参数非法：x=nan 非有限数值'（期望 ok=False，含 '非有限数值'，规则 ③）
+[PASS] ④好 电量60% | navigate_to({"x": 8.6, "y": 5.2}) → ok=True reason='ok'（期望 ok=True，含 'ok'，规则 ）
+[PASS] ④坏 电量10% | navigate_to({"x": 8.6, "y": 5.2}) → ok=False reason='电量不足 15%，拒绝新任务（当前 10%）'（期望 ok=False，含 '电量不足'，规则 ④）
+八发测试: 10/10 passed（八发基线+2冗余）
+
+# 八发测试 · 第8课 task8.pptx P14（重跑追加，最新一次在末尾）
+[PASS] ①好 清单内自由格 W1_door | navigate_to({"x": 8.6, "y": 5.2, "label": "door"}) → ok=True reason='ok'（期望 ok=True，含 'ok'，规则 ）
+[PASS] ①坏a 地图外 (50,50)＝官方T2 | navigate_to({"x": 50, "y": 50}) → ok=False reason='规则①｜目标(50,50)超出地图范围'（期望 ok=False，含 '超出地图范围'，规则 ①）
+[PASS] ①坏b 障碍内 (4.52,7.80)＝T5 | navigate_to({"x": 4.52, "y": 7.8}) → ok=False reason='规则①｜目标(4.52,7.8)位于障碍物内'（期望 ok=False，含 '位于障碍物内'，规则 ①）
+[PASS] ②好 fresh cup | navigate_to({"x": 2.7, "y": 4.5, "label": "cup"}) → ok=True reason='ok'（期望 ok=True，含 'ok'，规则 ）
+[PASS] ②坏a 清单外 label=kitchen | navigate_to({"x": 5.0, "y": 5.0, "label": "kitchen"}) → ok=False reason="规则②｜语义地图中不存在'kitchen'。当前可用: W1_door, W2_charge, W3_podium, W4_shelf, W5_window, W6_bench, W7_trash, W8_home, bench, bottle, chair, charger, cup, door, home, podium, shelf, trash, window"（期望 ok=False，含 "不存在'kitchen'"，规则 ②）
+[PASS] ②坏b 超龄 cup age2000s＝T6 | navigate_to({"x": 2.7, "y": 4.5, "label": "cup"}) → ok=False reason="规则②｜语义地图中'cup'信息已过期（age_s=2000s > τ=1800s）。当前可用: W1_door, W2_charge, W3_podium, W4_shelf, W5_window, W6_bench, W7_trash, W8_home, bench, bottle, chair, charger, cup, door, home, podium, shelf, trash, window"（期望 ok=False，含 '已过期'，规则 ②）
+[PASS] ③好 值域有限 label=W1_door | navigate_to({"x": 8.6, "y": 5.2, "label": "W1_door"}) → ok=True reason='ok'（期望 ok=True，含 'ok'，规则 ）
+[PASS] ③坏 x=NaN 非有限数值 | navigate_to({"x": NaN, "y": 5.2}) → ok=False reason='规则③｜参数非法：x=nan 非有限数值'（期望 ok=False，含 '非有限数值'，规则 ③）
+[PASS] ④好 电量60% | navigate_to({"x": 8.6, "y": 5.2}) → ok=True reason='ok'（期望 ok=True，含 'ok'，规则 ）
+[PASS] ④坏 电量10% | navigate_to({"x": 8.6, "y": 5.2}) → ok=False reason='规则④｜电量不足 15%，拒绝新任务（当前 10%）'（期望 ok=False，含 '电量不足'，规则 ④）
+八发测试: 10/10 passed（八发基线+2冗余）
+
